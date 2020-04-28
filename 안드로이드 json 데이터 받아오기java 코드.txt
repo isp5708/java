@@ -1,0 +1,39 @@
+try{
+            Log.v("aaaaa","1");/*
+            URL url=new URL( "https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/"
+                    + "searchDailyBoxOfficeList.json"
+                    + "?key=[2ff1bd0719ae5d40d581e7b10a5adbf8]"
+                    + "&targetDt=20191120");*/
+            String urlstr="https://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?key=430156241533f1d058c603178cc3ca0e&targetDt=20120101";
+            URL url=new URL(urlstr);
+            Log.v("aaaaa","2");
+            HttpsURLConnection myConnection=(HttpsURLConnection)url.openConnection();
+            myConnection.setReadTimeout(10000);
+            myConnection.setConnectTimeout(10000);
+            myConnection.setRequestMethod("GET");
+            myConnection.setUseCaches(false);
+            myConnection.setAllowUserInteraction(false);
+            myConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+            int responceCode = myConnection.getResponseCode();
+            //myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+            Log.v("aaaaa","3");
+            String response=null;
+            if(responceCode== HttpURLConnection.HTTP_OK) { // 정상 호출
+                String line;
+                BufferedReader br = new BufferedReader(new InputStreamReader(myConnection.getInputStream()));
+                while ((line = br.readLine()) != null)
+                {
+                    response = "";// String variable declared global
+                    response += line;
+                    Log.i("response_line", response);
+                }
+                return response;
+            } else {  // 에러 발생
+                Log.v("aaaaa","6");
+                return "error";
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return "nodata";
+        }
